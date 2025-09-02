@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Appointment = () => {
   const { docId } = useParams();
-  const { doctors, currencySymbol, backendUrl, token, getDoctosData } =
+  const { doctors, currencySymbol, backendUrl, token, getDoctosData, t } =
     useContext(AppContext);
   const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
@@ -90,12 +90,12 @@ const Appointment = () => {
 
   const bookAppointment = async () => {
     if (!token) {
-      toast.warning("Login to book appointment");
+      toast.warning(t("LOGIN_TO_BOOK"));
       return navigate("/login");
     }
     // Frontend validation: ensure a slot is selected
     if (!slotTime) {
-      toast.error("Please select a time slot.");
+      toast.error(t("PLEASE_SELECT_SLOT"));
       return;
     }
     const date = docSlots[slotIndex][0].datetime;
@@ -168,7 +168,8 @@ const Appointment = () => {
           {/* ----- Doc About ----- */}
           <div>
             <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">
-              About <img className="w-3" src={assets.info_icon} alt="" />
+              {t("ABOUT_DOCTOR")}{" "}
+              <img className="w-3" src={assets.info_icon} alt="" />
             </p>
             <p className="text-sm text-gray-600 max-w-[700px] mt-1">
               {docInfo.about}
@@ -176,7 +177,7 @@ const Appointment = () => {
           </div>
 
           <p className="text-gray-600 font-medium mt-4">
-            Appointment fee:{" "}
+            {t("APPOINTMENT_FEE")}{" "}
             <span className="text-gray-800">
               {currencySymbol}
               {docInfo.fees}
@@ -187,7 +188,7 @@ const Appointment = () => {
 
       {/* Booking slots */}
       <div className="sm:ml-72 sm:pl-4 mt-8 font-medium text-[#565656]">
-        <p>Booking slots</p>
+        <p>{t("BOOKING_SLOTS")}</p>
         <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
           {docSlots.length &&
             docSlots.map((item, index) => (
@@ -227,7 +228,7 @@ const Appointment = () => {
           onClick={bookAppointment}
           className="bg-primary text-white text-sm font-light px-20 py-3 rounded-full my-6"
         >
-          Book an appointment
+          {t("BOOK_AN_APPOINTMENT")}
         </button>
       </div>
 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { assets } from "../assets/assets";
 
 const MyAppointments = () => {
-  const { backendUrl, token } = useContext(AppContext);
+  const { backendUrl, token, t } = useContext(AppContext);
   const navigate = useNavigate();
 
   const [appointments, setAppointments] = useState([]);
@@ -149,7 +149,7 @@ const MyAppointments = () => {
   return (
     <div>
       <p className="pb-3 mt-12 text-lg font-medium text-gray-600 border-b">
-        My appointments
+        {t("MY_APPOINTMENTS_TITLE")}
       </p>
       <div className="">
         {appointments.map((item, index) => (
@@ -169,12 +169,14 @@ const MyAppointments = () => {
                 {item.docData.name}
               </p>
               <p>{item.docData.speciality}</p>
-              <p className="text-[#464646] font-medium mt-1">Address:</p>
+              <p className="text-[#464646] font-medium mt-1">
+                {t("ADDRESS_LABEL")}
+              </p>
               <p className="">{item.docData.address.line1}</p>
               <p className="">{item.docData.address.line2}</p>
               <p className=" mt-1">
                 <span className="text-sm text-[#3C3C3C] font-medium">
-                  Date & Time:
+                  {t("DATE_TIME")}
                 </span>{" "}
                 {slotDateFormat(item.slotDate)} | {item.slotTime}
               </p>
@@ -189,7 +191,7 @@ const MyAppointments = () => {
                     onClick={() => setPayment(item._id)}
                     className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-primary hover:text-white transition-all duration-300"
                   >
-                    Pay Online
+                    {t("PAY_ONLINE")}
                   </button>
                 )}
               {!item.cancelled &&
@@ -224,13 +226,13 @@ const MyAppointments = () => {
                 )}
               {!item.cancelled && item.payment && !item.isCompleted && (
                 <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]">
-                  Paid
+                  {t("PAID")}
                 </button>
               )}
 
               {item.isCompleted && (
                 <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">
-                  Completed
+                  {t("COMPLETED")}
                 </button>
               )}
 
@@ -239,12 +241,12 @@ const MyAppointments = () => {
                   onClick={() => cancelAppointment(item._id)}
                   className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300"
                 >
-                  Cancel appointment
+                  {t("CANCEL_APPOINTMENT")}
                 </button>
               )}
               {item.cancelled && !item.isCompleted && (
                 <button className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">
-                  Appointment cancelled
+                  {t("APPOINTMENT_CANCELLED")}
                 </button>
               )}
             </div>

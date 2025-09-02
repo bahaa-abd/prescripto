@@ -3,10 +3,12 @@ import { assets } from "../assets/assets";
 import { NavLink } from "react-router-dom";
 import { DoctorContext } from "../context/DoctorContext";
 import { AdminContext } from "../context/AdminContext";
+import { AppContext } from "../context/AppContext";
 
 const Sidebar = () => {
   const { dToken } = useContext(DoctorContext);
   const { aToken } = useContext(AdminContext);
+  const { t } = useContext(AppContext);
 
   return (
     <div className="min-h-screen bg-white border-r">
@@ -21,7 +23,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.home_icon} alt="" />
-            <p className="hidden md:block">Dashboard</p>
+            <p className="hidden md:block">{t("DASHBOARD")}</p>
           </NavLink>
           <NavLink
             to={"/all-appointments"}
@@ -32,7 +34,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.appointment_icon} alt="" />
-            <p className="hidden md:block">Appointments</p>
+            <p className="hidden md:block">{t("APPOINTMENTS")}</p>
           </NavLink>
           <NavLink
             to={"/add-doctor"}
@@ -43,7 +45,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.add_icon} alt="" />
-            <p className="hidden md:block">Add Doctor</p>
+            <p className="hidden md:block">{t("ADD_DOCTOR")}</p>
           </NavLink>
           <NavLink
             to={"/doctor-list"}
@@ -54,7 +56,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.people_icon} alt="" />
-            <p className="hidden md:block">Doctors List</p>
+            <p className="hidden md:block">{t("DOCTORS_LIST")}</p>
           </NavLink>
         </ul>
       )}
@@ -70,7 +72,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.home_icon} alt="" />
-            <p className="hidden md:block">Dashboard</p>
+            <p className="hidden md:block">{t("DASHBOARD")}</p>
           </NavLink>
           <NavLink
             to={"/doctor-appointments"}
@@ -81,7 +83,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.appointment_icon} alt="" />
-            <p className="hidden md:block">Appointments</p>
+            <p className="hidden md:block">{t("APPOINTMENTS")}</p>
           </NavLink>
           <NavLink
             to={"/doctor-profile"}
@@ -92,7 +94,7 @@ const Sidebar = () => {
             }
           >
             <img className="min-w-5" src={assets.people_icon} alt="" />
-            <p className="hidden md:block">Profile</p>
+            <p className="hidden md:block">{t("PROFILE")}</p>
           </NavLink>
         </ul>
       )}

@@ -7,7 +7,24 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
-  const { token, setToken, userData } = useContext(AppContext);
+  const { token, setToken, userData, language, setLanguage } =
+    useContext(AppContext);
+
+  const t = (key) => {
+    const dict = {
+      HOME: { en: "HOME", ar: "الرئيسية" },
+      ALL_DOCTORS: { en: "ALL DOCTORS", ar: "جميع الأطباء" },
+      ABOUT: { en: "ABOUT", ar: "من نحن" },
+      CONTACT: { en: "CONTACT", ar: "اتصل بنا" },
+      MY_PROFILE: { en: "My Profile", ar: "ملفي" },
+      MY_APPOINTMENTS: { en: "My Appointments", ar: "مواعيدي" },
+      MY_PAYMENTS: { en: "My Payments", ar: "مدفوعاتي" },
+      LOGOUT: { en: "Logout", ar: "تسجيل الخروج" },
+      CREATE_ACCOUNT: { en: "Create account", ar: "إنشاء حساب" },
+      LANG: { en: "EN", ar: "AR" },
+    };
+    return dict[key]?.[language] || key;
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -25,24 +42,30 @@ const Navbar = () => {
       />
       <ul className="md:flex items-start gap-5 font-medium hidden">
         <NavLink to="/">
-          <li className="py-1">HOME</li>
+          <li className="py-1">{t("HOME")}</li>
           <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
         </NavLink>
         <NavLink to="/doctors">
-          <li className="py-1">ALL DOCTORS</li>
+          <li className="py-1">{t("ALL_DOCTORS")}</li>
           <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
         </NavLink>
         <NavLink to="/about">
-          <li className="py-1">ABOUT</li>
+          <li className="py-1">{t("ABOUT")}</li>
           <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
         </NavLink>
         <NavLink to="/contact">
-          <li className="py-1">CONTACT</li>
+          <li className="py-1">{t("CONTACT")}</li>
           <hr className="border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden" />
         </NavLink>
       </ul>
 
       <div className="flex items-center gap-4 ">
+        <button
+          onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+          className="px-3 py-1 border rounded-full text-xs"
+        >
+          {language === "ar" ? "EN" : "AR"}
+        </button>
         {token && userData ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
             <img className="w-8 rounded-full" src={userData.image} alt="" />
@@ -53,22 +76,22 @@ const Navbar = () => {
                   onClick={() => navigate("/my-profile")}
                   className="hover:text-black cursor-pointer"
                 >
-                  My Profile
+                  {t("MY_PROFILE")}
                 </p>
                 <p
                   onClick={() => navigate("/my-appointments")}
                   className="hover:text-black cursor-pointer"
                 >
-                  My Appointments
+                  {t("MY_APPOINTMENTS")}
                 </p>
                 <p
                   onClick={() => navigate("/my-payments")}
                   className="hover:text-black cursor-pointer"
                 >
-                  My Payments
+                  {t("MY_PAYMENTS")}
                 </p>
                 <p onClick={logout} className="hover:text-black cursor-pointer">
-                  Logout
+                  {t("LOGOUT")}
                 </p>
               </div>
             </div>
@@ -78,7 +101,7 @@ const Navbar = () => {
             onClick={() => navigate("/login")}
             className="bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
           >
-            Create account
+            {t("CREATE_ACCOUNT")}
           </button>
         )}
         <img
@@ -105,16 +128,22 @@ const Navbar = () => {
           </div>
           <ul className="flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium">
             <NavLink onClick={() => setShowMenu(false)} to="/">
-              <p className="px-4 py-2 rounded full inline-block">HOME</p>
+              <p className="px-4 py-2 rounded full inline-block">{t("HOME")}</p>
             </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to="/doctors">
-              <p className="px-4 py-2 rounded full inline-block">ALL DOCTORS</p>
+              <p className="px-4 py-2 rounded full inline-block">
+                {t("ALL_DOCTORS")}
+              </p>
             </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to="/about">
-              <p className="px-4 py-2 rounded full inline-block">ABOUT</p>
+              <p className="px-4 py-2 rounded full inline-block">
+                {t("ABOUT")}
+              </p>
             </NavLink>
             <NavLink onClick={() => setShowMenu(false)} to="/contact">
-              <p className="px-4 py-2 rounded full inline-block">CONTACT</p>
+              <p className="px-4 py-2 rounded full inline-block">
+                {t("CONTACT")}
+              </p>
             </NavLink>
           </ul>
         </div>

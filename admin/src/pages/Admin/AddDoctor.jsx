@@ -17,7 +17,7 @@ const AddDoctor = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
 
-  const { backendUrl } = useContext(AppContext);
+  const { backendUrl, t } = useContext(AppContext);
   const { aToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
@@ -25,7 +25,7 @@ const AddDoctor = () => {
 
     try {
       if (!docImg) {
-        return toast.error("Image Not Selected");
+        return toast.error(t("IMAGE_NOT_SELECTED"));
       }
 
       const formData = new FormData();
@@ -76,7 +76,7 @@ const AddDoctor = () => {
 
   return (
     <form onSubmit={onSubmitHandler} className="m-5 w-full">
-      <p className="mb-3 text-lg font-medium">Add Doctor</p>
+      <p className="mb-3 text-lg font-medium">{t("ADD_DOCTOR_TITLE")}</p>
 
       <div className="bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll">
         <div className="flex items-center gap-4 mb-8 text-gray-500">
@@ -94,51 +94,49 @@ const AddDoctor = () => {
             id="doc-img"
             hidden
           />
-          <p>
-            Upload doctor <br /> picture
-          </p>
+          <p>{t("UPLOAD_PICTURE")}</p>
         </div>
 
         <div className="flex flex-col lg:flex-row items-start gap-10 text-gray-600">
           <div className="w-full lg:flex-1 flex flex-col gap-4">
             <div className="flex-1 flex flex-col gap-1">
-              <p>Your name</p>
+              <p>{t("YOUR_NAME")}</p>
               <input
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 className="border rounded px-3 py-2"
                 type="text"
-                placeholder="Name"
+                placeholder={t("PLACEHOLDER_NAME")}
                 required
               />
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Doctor Email</p>
+              <p>{t("DOCTOR_EMAIL")}</p>
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 className="border rounded px-3 py-2"
                 type="email"
-                placeholder="Email"
+                placeholder={t("PLACEHOLDER_EMAIL")}
                 required
               />
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Set Password</p>
+              <p>{t("SET_PASSWORD")}</p>
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 className="border rounded px-3 py-2"
                 type="password"
-                placeholder="Password"
+                placeholder={t("PLACEHOLDER_PASSWORD")}
                 required
               />
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Experience</p>
+              <p>{t("EXPERIENCE")}</p>
               <select
                 onChange={(e) => setExperience(e.target.value)}
                 value={experience}
@@ -157,13 +155,13 @@ const AddDoctor = () => {
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Fees</p>
+              <p>{t("FEES")}</p>
               <input
                 onChange={(e) => setFees(e.target.value)}
                 value={fees}
                 className="border rounded px-3 py-2"
                 type="number"
-                placeholder="Doctor fees"
+                placeholder={t("PLACEHOLDER_FEES")}
                 required
               />
             </div>
@@ -171,7 +169,7 @@ const AddDoctor = () => {
 
           <div className="w-full lg:flex-1 flex flex-col gap-4">
             <div className="flex-1 flex flex-col gap-1">
-              <p>Speciality</p>
+              <p>{t("SPECIALITY")}</p>
               <select
                 onChange={(e) => setSpeciality(e.target.value)}
                 value={speciality}
@@ -187,25 +185,25 @@ const AddDoctor = () => {
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Degree</p>
+              <p>{t("DEGREE")}</p>
               <input
                 onChange={(e) => setDegree(e.target.value)}
                 value={degree}
                 className="border rounded px-3 py-2"
                 type="text"
-                placeholder="Degree"
+                placeholder={t("PLACEHOLDER_DEGREE")}
                 required
               />
             </div>
 
             <div className="flex-1 flex flex-col gap-1">
-              <p>Address</p>
+              <p>{t("ADDRESS")}</p>
               <input
                 onChange={(e) => setAddress1(e.target.value)}
                 value={address1}
                 className="border rounded px-3 py-2"
                 type="text"
-                placeholder="Address 1"
+                placeholder={t("PLACEHOLDER_ADDRESS1")}
                 required
               />
               <input
@@ -213,7 +211,7 @@ const AddDoctor = () => {
                 value={address2}
                 className="border rounded px-3 py-2"
                 type="text"
-                placeholder="Address 2"
+                placeholder={t("PLACEHOLDER_ADDRESS2")}
                 required
               />
             </div>
@@ -221,13 +219,13 @@ const AddDoctor = () => {
         </div>
 
         <div>
-          <p className="mt-4 mb-2">About Doctor</p>
+          <p className="mt-4 mb-2">{t("ABOUT_DOCTOR")}</p>
           <textarea
             onChange={(e) => setAbout(e.target.value)}
             value={about}
             className="w-full px-4 pt-2 border rounded"
             rows={5}
-            placeholder="write about doctor"
+            placeholder={t("PLACEHOLDER_ABOUT")}
           ></textarea>
         </div>
 
@@ -235,7 +233,7 @@ const AddDoctor = () => {
           type="submit"
           className="bg-primary px-10 py-3 mt-4 text-white rounded-full"
         >
-          Add doctor
+          {t("ADD_DOCTOR_BTN")}
         </button>
       </div>
     </form>

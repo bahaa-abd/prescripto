@@ -11,7 +11,7 @@ const DoctorAppointments = () => {
     cancelAppointment,
     completeAppointment,
   } = useContext(DoctorContext);
-  const { slotDateFormat, calculateAge, currency } = useContext(AppContext);
+  const { slotDateFormat, calculateAge, currency, t } = useContext(AppContext);
 
   useEffect(() => {
     if (dToken) {
@@ -21,17 +21,17 @@ const DoctorAppointments = () => {
 
   return (
     <div className="w-full max-w-6xl m-5 ">
-      <p className="mb-3 text-lg font-medium">All Appointments</p>
+      <p className="mb-3 text-lg font-medium">{t("ALL_APPOINTMENTS_TITLE")}</p>
 
       <div className="bg-white border rounded text-sm max-h-[80vh] overflow-y-scroll">
         <div className="max-sm:hidden grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-1 py-3 px-6 border-b">
           <p>#</p>
-          <p>Patient</p>
-          <p>Payment</p>
-          <p>Age</p>
-          <p>Date & Time</p>
-          <p>Fees</p>
-          <p>Action</p>
+          <p>{t("PATIENT")}</p>
+          <p>{t("PAYMENT")}</p>
+          <p>{t("AGE")}</p>
+          <p>{t("DATE_AND_TIME")}</p>
+          <p>{t("FEES_COL")}</p>
+          <p>{t("ACTION")}</p>
         </div>
         {appointments.map((item, index) => (
           <div
@@ -49,7 +49,7 @@ const DoctorAppointments = () => {
             </div>
             <div>
               <p className="text-xs inline border border-primary px-2 rounded-full">
-                {item.payment ? "Paid" : "Unpaid"}
+                {item.payment ? t("PAID") : t("UNPAID")}
               </p>
             </div>
             <p className="max-sm:hidden">{calculateAge(item.userData.dob)}</p>
@@ -61,9 +61,13 @@ const DoctorAppointments = () => {
               {item.amount}
             </p>
             {item.cancelled ? (
-              <p className="text-red-400 text-xs font-medium">Cancelled</p>
+              <p className="text-red-400 text-xs font-medium">
+                {t("CANCELLED")}
+              </p>
             ) : item.isCompleted ? (
-              <p className="text-green-500 text-xs font-medium">Completed</p>
+              <p className="text-green-500 text-xs font-medium">
+                {t("COMPLETED")}
+              </p>
             ) : (
               <div className="flex">
                 <img

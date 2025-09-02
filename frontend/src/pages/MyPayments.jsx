@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const MyPayments = () => {
-  const { backendUrl, token } = useContext(AppContext);
+  const { backendUrl, token, t } = useContext(AppContext);
   const [payments, setPayments] = useState([]);
 
   const getUserPayments = async () => {
@@ -32,23 +32,23 @@ const MyPayments = () => {
   return (
     <div>
       <p className="pb-3 mt-12 text-lg font-medium text-gray-600 border-b">
-        My Payments
+        {t("MY_PAYMENTS_TITLE")}
       </p>
       <div className="overflow-x-auto mt-6">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Date</th>
-              <th className="py-2 px-4 border-b">Type</th>
-              <th className="py-2 px-4 border-b">Amount</th>
-              <th className="py-2 px-4 border-b">Description</th>
+              <th className="py-2 px-4 border-b">{t("DATE")}</th>
+              <th className="py-2 px-4 border-b">{t("TYPE")}</th>
+              <th className="py-2 px-4 border-b">{t("AMOUNT")}</th>
+              <th className="py-2 px-4 border-b">{t("DESCRIPTION")}</th>
             </tr>
           </thead>
           <tbody>
             {payments.length === 0 && (
               <tr>
                 <td colSpan="4" className="text-center py-4 text-gray-400">
-                  No payments found.
+                  {t("NO_PAYMENTS_FOUND")}
                 </td>
               </tr>
             )}

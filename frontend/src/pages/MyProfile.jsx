@@ -9,7 +9,7 @@ const MyProfile = () => {
 
   const [image, setImage] = useState(false);
 
-  const { token, backendUrl, userData, setUserData, loadUserProfileData } =
+  const { token, backendUrl, userData, setUserData, loadUserProfileData, t } =
     useContext(AppContext);
 
   // Function to update user profile data using API
@@ -23,7 +23,7 @@ const MyProfile = () => {
       !userData.gender ||
       !userData.dob
     ) {
-      toast.error("Please fill in all required fields.");
+      toast.error(t("PLEASE_FILL_ALL"));
       return;
     }
     try {
@@ -101,7 +101,7 @@ const MyProfile = () => {
 
       {/* User Balance */}
       <div className="text-lg font-semibold text-green-700 mb-2">
-        Balance:{" "}
+        {t("BALANCE")}{" "}
         {userData.balance?.toLocaleString(undefined, {
           style: "currency",
           currency: "USD",
@@ -111,11 +111,13 @@ const MyProfile = () => {
       <hr className="bg-[#ADADAD] h-[1px] border-none" />
 
       <div>
-        <p className="text-gray-600 underline mt-3">CONTACT INFORMATION</p>
+        <p className="text-gray-600 underline mt-3">
+          {t("CONTACT_INFORMATION")}
+        </p>
         <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-[#363636]">
-          <p className="font-medium">Email id:</p>
+          <p className="font-medium">{t("EMAIL_ID")}</p>
           <p className="text-blue-500">{userData.email}</p>
-          <p className="font-medium">Phone:</p>
+          <p className="font-medium">{t("PHONE")}</p>
 
           {isEdit ? (
             <input
@@ -130,7 +132,7 @@ const MyProfile = () => {
             <p className="text-blue-500">{userData.phone}</p>
           )}
 
-          <p className="font-medium">Address:</p>
+          <p className="font-medium">{t("ADDRESS")}</p>
 
           {isEdit ? (
             <p>
@@ -166,9 +168,11 @@ const MyProfile = () => {
         </div>
       </div>
       <div>
-        <p className="text-[#797979] underline mt-3">BASIC INFORMATION</p>
+        <p className="text-[#797979] underline mt-3">
+          {t("BASIC_INFORMATION")}
+        </p>
         <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-gray-600">
-          <p className="font-medium">Gender:</p>
+          <p className="font-medium">{t("GENDER")}</p>
 
           {isEdit ? (
             <select
@@ -178,15 +182,15 @@ const MyProfile = () => {
               }
               value={userData.gender}
             >
-              <option value="Not Selected">Not Selected</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="Not Selected">{t("NOT_SELECTED")}</option>
+              <option value="Male">{t("MALE")}</option>
+              <option value="Female">{t("FEMALE")}</option>
             </select>
           ) : (
             <p className="text-gray-500">{userData.gender}</p>
           )}
 
-          <p className="font-medium">Birthday:</p>
+          <p className="font-medium">{t("BIRTHDAY")}</p>
 
           {isEdit ? (
             <input
@@ -208,14 +212,14 @@ const MyProfile = () => {
             onClick={updateUserProfileData}
             className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
           >
-            Save information
+            {t("SAVE_INFORMATION")}
           </button>
         ) : (
           <button
             onClick={() => setIsEdit(true)}
             className="border border-primary px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all"
           >
-            Edit
+            {t("EDIT")}
           </button>
         )}
       </div>

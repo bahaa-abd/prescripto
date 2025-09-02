@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { assets } from "../../assets/assets";
 import { AdminContext } from "../../context/AdminContext";
+import { AppContext } from "../../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const { aToken, getDashData, dashData } = useContext(AdminContext);
+  const { t } = useContext(AppContext);
   // const { slotDateFormat } = useContext(AppContext);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentForm, setPaymentForm] = useState({
@@ -42,7 +44,7 @@ const Dashboard = () => {
     setError("");
     // Frontend validation
     if (!paymentForm.userId) {
-      setError("Please select a user.");
+      setError(t("SELECT_USER"));
       setLoading(false);
       return;
     }
@@ -51,12 +53,12 @@ const Dashboard = () => {
       isNaN(paymentForm.amount) ||
       Number(paymentForm.amount) <= 0
     ) {
-      setError("Please enter a valid positive amount.");
+      setError(t("AMOUNT"));
       setLoading(false);
       return;
     }
     if (typeof paymentForm.description !== "string") {
-      setError("Description must be a string.");
+      setError(t("DESCRIPTION"));
       setLoading(false);
       return;
     }
@@ -104,7 +106,7 @@ const Dashboard = () => {
               <p className="text-xl font-semibold text-gray-600">
                 {dashData.doctors}
               </p>
-              <p className="text-gray-400">Doctors</p>
+              <p className="text-gray-400">{t("DOCTORS")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
@@ -113,7 +115,7 @@ const Dashboard = () => {
               <p className="text-xl font-semibold text-gray-600">
                 {dashData.appointments}
               </p>
-              <p className="text-gray-400">Appointments</p>
+              <p className="text-gray-400">{t("APPOINTMENTS")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
@@ -122,7 +124,7 @@ const Dashboard = () => {
               <p className="text-xl font-semibold text-gray-600">
                 {dashData.patients}
               </p>
-              <p className="text-gray-400">Patients</p>
+              <p className="text-gray-400">{t("PATIENTS")}</p>
             </div>
           </div>
         </div>
@@ -132,31 +134,31 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <img src={assets.list_icon} alt="" />
-              <p className="font-semibold">All Payments</p>
+              <p className="font-semibold">{t("ALL_PAYMENTS")}</p>
             </div>
             <button
               className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition-all"
               onClick={openPaymentForm}
             >
-              Make Payment for User
+              {t("MAKE_PAYMENT_FOR_USER")}
             </button>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm border">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="py-2 px-4 border">User</th>
-                  <th className="py-2 px-4 border">Type</th>
-                  <th className="py-2 px-4 border">Amount</th>
-                  <th className="py-2 px-4 border">Date</th>
-                  <th className="py-2 px-4 border">Description</th>
+                  <th className="py-2 px-4 border">{t("USER")}</th>
+                  <th className="py-2 px-4 border">{t("TYPE")}</th>
+                  <th className="py-2 px-4 border">{t("AMOUNT")}</th>
+                  <th className="py-2 px-4 border">{t("DATE")}</th>
+                  <th className="py-2 px-4 border">{t("DESCRIPTION")}</th>
                 </tr>
               </thead>
               <tbody>
                 {dashData.payments && dashData.payments.length === 0 && (
                   <tr>
                     <td colSpan="5" className="text-center py-4 text-gray-400">
-                      No payments found.
+                      {t("NO_PAYMENTS_FOUND")}
                     </td>
                   </tr>
                 )}
@@ -191,7 +193,7 @@ const Dashboard = () => {
           <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded shadow-lg w-full max-w-md">
               <h2 className="text-lg font-semibold mb-4">
-                Make Payment for User
+                {t("MAKE_PAYMENT_FOR_USER")}
               </h2>
               <form
                 onSubmit={handlePaymentSubmit}
@@ -205,7 +207,7 @@ const Dashboard = () => {
                   className="border px-3 py-2 rounded"
                   required
                 >
-                  <option value="">Select User</option>
+                  <option value="">{t("SELECT_USER")}</option>
                   {users.map((user) => (
                     <option key={user._id} value={user._id}>
                       {user.name} ({user.email})
@@ -214,7 +216,7 @@ const Dashboard = () => {
                 </select>
                 <input
                   type="number"
-                  placeholder="Amount"
+                  placeholder={t("AMOUNT")}
                   value={paymentForm.amount}
                   onChange={(e) =>
                     setPaymentForm((f) => ({ ...f, amount: e.target.value }))
@@ -230,12 +232,12 @@ const Dashboard = () => {
                   className="border px-3 py-2 rounded"
                   required
                 >
-                  <option value="deposit">Deposit</option>
-                  <option value="withdraw">Withdraw</option>
+                  <option value="deposit">{t("DEPOSIT")}</option>
+                  <option value="withdraw">{t("WITHDRAW")}</option>
                 </select>
                 <input
                   type="text"
-                  placeholder="Description (optional)"
+                  placeholder={t("DESCRIPTION_OPTIONAL")}
                   value={paymentForm.description}
                   onChange={(e) =>
                     setPaymentForm((f) => ({
@@ -252,14 +254,14 @@ const Dashboard = () => {
                     className="bg-primary text-white px-4 py-2 rounded"
                     disabled={loading}
                   >
-                    {loading ? "Processing..." : "Submit"}
+                    {loading ? t("PROCESSING") : t("SUBMIT")}
                   </button>
                   <button
                     type="button"
                     className="border px-4 py-2 rounded"
                     onClick={() => setShowPaymentForm(false)}
                   >
-                    Cancel
+                    {t("CANCEL")}
                   </button>
                 </div>
               </form>
