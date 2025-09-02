@@ -108,6 +108,14 @@ export const resources = {
         "Simply browse through our extensive list of trusted doctors.",
       TOP_DOCTORS_TO_BOOK: "Top Doctors to Book",
       MORE: "more",
+      // Days of the week
+      SUN: "SUN",
+      MON: "MON",
+      TUE: "TUE",
+      WED: "WED",
+      THU: "THU",
+      FRI: "FRI",
+      SAT: "SAT",
     },
     specialityMap: {
       "General physician": "General physician",
@@ -225,6 +233,14 @@ export const resources = {
       RELATED_DESC: "تصفح قائمتنا الواسعة من الأطباء الموثوقين.",
       TOP_DOCTORS_TO_BOOK: "أفضل الأطباء للحجز",
       MORE: "المزيد",
+      // Days of the week
+      SUN: "أحد",
+      MON: "اثن",
+      TUE: "ثلث",
+      WED: "أرب",
+      THU: "خمس",
+      FRI: "جمع",
+      SAT: "سبت",
     },
     specialityMap: {
       "General physician": "الطب العام",

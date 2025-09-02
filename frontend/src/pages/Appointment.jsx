@@ -38,22 +38,33 @@ const Appointment = () => {
       // setting end time of the date with index
       let endTime = new Date();
       endTime.setDate(today.getDate() + i);
-      endTime.setHours(21, 0, 0, 0);
+      endTime.setHours(20, 0, 0, 0);
 
       // setting hours
       if (today.getDate() === currentDate.getDate()) {
-        currentDate.setHours(
-          currentDate.getHours() > 10 ? currentDate.getHours() + 1 : 10
-        );
-        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
+        // For current day, start from current hour + 1 or 8 AM, whichever is later
+        const currentHour = today.getHours();
+        const startHour = Math.max(currentHour + 1, 8);
+        currentDate.setHours(startHour);
+        currentDate.setMinutes(0);
       } else {
-        currentDate.setHours(10);
+        // For future days, start from 8 AM
+        currentDate.setHours(8);
         currentDate.setMinutes(0);
       }
 
       let timeSlots = [];
 
       while (currentDate < endTime) {
+        // Skip rest time from 1 PM to 4 PM (13:00 to 16:00)
+        const currentHour = currentDate.getHours();
+        if (currentHour >= 13 && currentHour < 16) {
+          // Skip to 4 PM
+          currentDate.setHours(16);
+          currentDate.setMinutes(0);
+          continue;
+        }
+
         let formattedTime = currentDate.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
@@ -207,13 +218,13 @@ const Appointment = () => {
             ))}
         </div>
 
-        <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
+        <div className="flex flex-wrap gap-3 w-full mt-4">
           {docSlots.length &&
             docSlots[slotIndex].map((item, index) => (
               <p
                 onClick={() => setSlotTime(item.time)}
                 key={index}
-                className={`text-sm font-light  flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${
+                className={`text-base font-medium px-6 py-3 rounded-full cursor-pointer whitespace-nowrap ${
                   item.time === slotTime
                     ? "bg-primary text-white"
                     : "text-[#949494] border border-[#B4B4B4]"

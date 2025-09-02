@@ -64,7 +64,7 @@ const Navbar = () => {
           onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
           className="px-3 py-1 border rounded-full text-xs"
         >
-          {language === "ar" ? "EN" : "AR"}
+          {language === "en" ? "EN" : "AR"}
         </button>
         {token && userData ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
