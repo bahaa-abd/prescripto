@@ -6,6 +6,7 @@ const paymentSchema = new mongoose.Schema({
   type: { type: String, enum: ["deposit", "withdraw"], required: true },
   description: { type: String },
   date: { type: Date, default: Date.now },
+  method: { type: String, enum: ["cash", "bank"] },
 });
 
 const paymentModel =

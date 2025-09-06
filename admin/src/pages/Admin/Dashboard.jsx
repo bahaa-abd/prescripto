@@ -15,6 +15,7 @@ const Dashboard = () => {
     amount: "",
     type: "deposit",
     description: "",
+    method: "cash",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -62,6 +63,11 @@ const Dashboard = () => {
       setLoading(false);
       return;
     }
+    if (typeof paymentForm.method !== "string") {
+      setError(t("METHOD"));
+      setLoading(false);
+      return;
+    }
     // Optionally, check if userId is a string (already enforced by select)
     // Debug: log paymentForm
     console.log("Submitting payment:", paymentForm);
@@ -79,6 +85,7 @@ const Dashboard = () => {
           amount: "",
           type: "deposit",
           description: "",
+          method: "cash",
         });
         toast.success(data.message);
         getDashData();
@@ -149,6 +156,7 @@ const Dashboard = () => {
                 <tr className="bg-gray-100">
                   <th className="py-2 px-4 border">{t("USER")}</th>
                   <th className="py-2 px-4 border">{t("TYPE")}</th>
+                  <th className="py-2 px-4 border">{t("METHOD")}</th>
                   <th className="py-2 px-4 border">{t("AMOUNT")}</th>
                   <th className="py-2 px-4 border">{t("DATE")}</th>
                   <th className="py-2 px-4 border">{t("DESCRIPTION")}</th>
@@ -172,7 +180,10 @@ const Dashboard = () => {
                         </span>
                       </td>
                       <td className="py-2 px-4 border capitalize">
-                        {item.type}
+                        {t(item.type?.toLocaleUpperCase())}
+                      </td>
+                      <td className="py-2 px-4 border capitalize">
+                        {t(item.method?.toLocaleUpperCase())}
                       </td>
                       <td className="py-2 px-4 border">{item.amount}</td>
                       <td className="py-2 px-4 border">
@@ -235,6 +246,17 @@ const Dashboard = () => {
                 >
                   <option value="deposit">{t("DEPOSIT")}</option>
                   <option value="withdraw">{t("WITHDRAW")}</option>
+                </select>
+                <select
+                  value={paymentForm.method}
+                  onChange={(e) =>
+                    setPaymentForm((f) => ({ ...f, method: e.target.value }))
+                  }
+                  className="border px-3 py-2 rounded"
+                  required
+                >
+                  <option value={"cash"}>{t("CASH")}</option>
+                  <option value={"bank"}>{t("BANK")}</option>
                 </select>
                 <input
                   type="text"

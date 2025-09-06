@@ -4,7 +4,7 @@ import userModel from "../models/userModel.js";
 // Create a payment (deposit or receipt)
 const createPayment = async (req, res) => {
   try {
-    const { userId, amount, type, description } = req.body;
+    const { userId, amount, type, description, method } = req.body;
     // Validation: check all required fields
     if (!userId || typeof userId !== "string" || userId.trim() === "") {
       return res.json({ success: false, message: "Missing or invalid userId" });
@@ -34,6 +34,7 @@ const createPayment = async (req, res) => {
       userId,
       amount: Number(amount),
       type,
+      method,
       description:
         typeof description === "string" && description.length
           ? description

@@ -10,14 +10,14 @@ const MyProfile = () => {
   const { token, backendUrl, userData, setUserData, loadUserProfileData, t } =
     useContext(AppContext);
 
-function formatDateToYYYYMMDD(date) {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
-  const day = String(d.getDate()).padStart(2, "0");
+  function formatDateToYYYYMMDD(date) {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
+    const day = String(d.getDate()).padStart(2, "0");
 
-  return `${year}-${month}-${day}`;
-}
+    return `${year}-${month}-${day}`;
+  }
 
   // Function to update user profile data using API
   const updateUserProfileData = async () => {
@@ -199,7 +199,7 @@ function formatDateToYYYYMMDD(date) {
             </select>
           ) : (
             <p className="text-gray-500">
-              {t(userData.gender.toUpperCase()) || ""}
+              {t(userData.gender?.toLocaleUpperCase()) || ""}
             </p>
           )}
 

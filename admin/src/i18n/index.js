@@ -1,6 +1,9 @@
 export const resources = {
   en: {
     common: {
+      METHOD: "Payment Method",
+      CASH: "Cash",
+      BANK: "Bank Transfer",
       ROLE_ADMIN: "Admin",
       ROLE_DOCTOR: "Doctor",
       LOGOUT: "Logout",
@@ -82,6 +85,9 @@ export const resources = {
   },
   ar: {
     common: {
+      METHOD: "طريقة الدفع",
+      CASH: "نقدي",
+      BANK: "حوالة بنكية",
       ROLE_ADMIN: "مسؤول",
       ROLE_DOCTOR: "طبيب",
       LOGOUT: "تسجيل الخروج",
