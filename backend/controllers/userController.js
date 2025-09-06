@@ -51,7 +51,13 @@ const registerUser = async (req, res) => {
       email,
       password: hashedPassword,
     };
-
+    const exist = await userModel.findOne({ email });
+    if (exist) {
+      return res.json({
+        success: false,
+        message: "User already exist",
+      });
+    }
     const newUser = new userModel(userData);
     const user = await newUser.save();
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
