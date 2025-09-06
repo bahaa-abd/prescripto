@@ -200,8 +200,7 @@ const doctors = [
     name: "Dr. Patrick Harris",
     email: "patrick.harris@prescripto.com",
     password: "test1234",
-    image:
-      "./../frontend/src/assets/doc12.png",
+    image: "./../frontend/src/assets/doc12.png",
     speciality: "Neurologist",
     degree: "MBBS",
     experience: "4 Years",

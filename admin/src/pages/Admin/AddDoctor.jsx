@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { AdminContext } from "../../context/AdminContext";
 import { AppContext } from "../../context/AppContext";
+import { resources, translateSpeciality } from "../../i18n";
 const AddDoctor = () => {
   const [docImg, setDocImg] = useState(false);
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ const AddDoctor = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
 
-  const { backendUrl, t } = useContext(AppContext);
+  const { backendUrl, t, language } = useContext(AppContext);
   const { aToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
@@ -159,6 +160,7 @@ const AddDoctor = () => {
               <input
                 onChange={(e) => setFees(e.target.value)}
                 value={fees}
+                min={1}
                 className="border rounded px-3 py-2"
                 type="number"
                 placeholder={t("PLACEHOLDER_FEES")}
@@ -174,13 +176,15 @@ const AddDoctor = () => {
                 onChange={(e) => setSpeciality(e.target.value)}
                 value={speciality}
                 className="border rounded px-2 py-2"
+                name="speciality"
               >
-                <option value="General physician">General physician</option>
-                <option value="Gynecologist">Gynecologist</option>
-                <option value="Dermatologist">Dermatologist</option>
-                <option value="Pediatricians">Pediatricians</option>
-                <option value="Neurologist">Neurologist</option>
-                <option value="Gastroenterologist">Gastroenterologist</option>
+                {Object.keys(resources[language]?.specialityMap || {}).map(
+                  (speciality) => (
+                    <option key={speciality} value={speciality}>
+                      {translateSpeciality(language, speciality)}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 

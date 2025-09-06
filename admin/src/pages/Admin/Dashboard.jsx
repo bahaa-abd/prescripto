@@ -223,6 +223,7 @@ const Dashboard = () => {
                   }
                   className="border px-3 py-2 rounded"
                   required
+                  min={1}
                 />
                 <select
                   value={paymentForm.type}

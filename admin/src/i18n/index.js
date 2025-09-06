@@ -70,6 +70,14 @@ export const resources = {
       PAYMENT: "Payment",
       PAID: "Paid",
       UNPAID: "Unpaid",
+      specialityMap: {
+        "General physician": "General physician",
+        Gynecologist: "Gynecologist",
+        Dermatologist: "Dermatologist",
+        Pediatricians: "Pediatricians",
+        Neurologist: "Neurologist",
+        Gastroenterologist: "Gastroenterologist",
+      },
     },
   },
   ar: {
@@ -144,10 +152,23 @@ export const resources = {
       PAID: "مدفوع",
       UNPAID: "غير مدفوع",
     },
+    specialityMap: {
+      "General physician": "الطب العام",
+      Gynecologist: "أمراض النساء",
+      Dermatologist: "الأمراض الجلدية",
+      Pediatricians: "طب الأطفال",
+      Neurologist: "أمراض الأعصاب",
+      Gastroenterologist: "أمراض الجهاز الهضمي",
+    },
   },
 };
 
 export function translate(language, key, ns = "common") {
   const dict = resources[language]?.[ns] || {};
   return dict[key] || key;
+}
+
+export function translateSpeciality(language, speciality) {
+  const map = resources[language]?.specialityMap || {};
+  return map[speciality] || speciality;
 }

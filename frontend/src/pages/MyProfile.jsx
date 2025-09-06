@@ -6,15 +6,21 @@ import { assets } from "../assets/assets";
 
 const MyProfile = () => {
   const [isEdit, setIsEdit] = useState(false);
-
   const [image, setImage] = useState(false);
-
   const { token, backendUrl, userData, setUserData, loadUserProfileData, t } =
     useContext(AppContext);
 
+function formatDateToYYYYMMDD(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
+  const day = String(d.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
   // Function to update user profile data using API
   const updateUserProfileData = async () => {
-    // Frontend validation
     if (
       !userData.name ||
       !userData.phone ||
@@ -26,19 +32,18 @@ const MyProfile = () => {
       toast.error(t("PLEASE_FILL_ALL"));
       return;
     }
+
     try {
       const formData = new FormData();
-
       formData.append("name", userData.name);
       formData.append("phone", userData.phone);
       formData.append("address", JSON.stringify(userData.address));
       formData.append("gender", userData.gender);
       formData.append("dob", userData.dob);
-
-      image && formData.append("image", image);
+      if (image) formData.append("image", image);
 
       const { data } = await axios.post(
-        backendUrl + "/api/user/update-profile",
+        `${backendUrl}/api/user/update-profile`,
         formData,
         { headers: { token } }
       );
@@ -53,12 +58,15 @@ const MyProfile = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.message);
+      toast.error(error.message || "Something went wrong!");
     }
   };
 
-  return userData ? (
+  if (!userData) return null;
+
+  return (
     <div className="max-w-lg flex flex-col gap-2 text-sm pt-5">
+      {/* Profile Image */}
       {isEdit ? (
         <label htmlFor="image">
           <div className="inline-block relative cursor-pointer">
@@ -74,7 +82,7 @@ const MyProfile = () => {
             />
           </div>
           <input
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => setImage(e.target.files?.[0] || false)}
             type="file"
             id="image"
             hidden
@@ -84,6 +92,7 @@ const MyProfile = () => {
         <img className="w-36 rounded" src={userData.image} alt="" />
       )}
 
+      {/* Name */}
       {isEdit ? (
         <input
           className="bg-gray-50 text-3xl font-medium max-w-60"
@@ -110,6 +119,7 @@ const MyProfile = () => {
 
       <hr className="bg-[#ADADAD] h-[1px] border-none" />
 
+      {/* Contact Information */}
       <div>
         <p className="text-gray-600 underline mt-3">
           {t("CONTACT_INFORMATION")}
@@ -117,8 +127,8 @@ const MyProfile = () => {
         <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-[#363636]">
           <p className="font-medium">{t("EMAIL_ID")}</p>
           <p className="text-blue-500">{userData.email}</p>
-          <p className="font-medium">{t("PHONE")}</p>
 
+          <p className="font-medium">{t("PHONE")}</p>
           {isEdit ? (
             <input
               className="bg-gray-50 max-w-52"
@@ -133,7 +143,6 @@ const MyProfile = () => {
           )}
 
           <p className="font-medium">{t("ADDRESS")}</p>
-
           {isEdit ? (
             <p>
               <input
@@ -142,10 +151,10 @@ const MyProfile = () => {
                 onChange={(e) =>
                   setUserData((prev) => ({
                     ...prev,
-                    address: { ...prev.address, line1: e.target.value },
+                    address: { ...(prev.address || {}), line1: e.target.value },
                   }))
                 }
-                value={userData.address.line1}
+                value={userData.address?.line1 || ""}
               />
               <br />
               <input
@@ -154,44 +163,47 @@ const MyProfile = () => {
                 onChange={(e) =>
                   setUserData((prev) => ({
                     ...prev,
-                    address: { ...prev.address, line2: e.target.value },
+                    address: { ...(prev.address || {}), line2: e.target.value },
                   }))
                 }
-                value={userData.address.line2}
+                value={userData.address?.line2 || ""}
               />
             </p>
           ) : (
             <p className="text-gray-500">
-              {userData.address.line1} <br /> {userData.address.line2}
+              {userData.address?.line1 || ""} <br />{" "}
+              {userData.address?.line2 || ""}
             </p>
           )}
         </div>
       </div>
+
+      {/* Basic Information */}
       <div>
         <p className="text-[#797979] underline mt-3">
           {t("BASIC_INFORMATION")}
         </p>
         <div className="grid grid-cols-[1fr_3fr] gap-y-2.5 mt-3 text-gray-600">
           <p className="font-medium">{t("GENDER")}</p>
-
           {isEdit ? (
             <select
               className="max-w-20 bg-gray-50"
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, gender: e.target.value }))
               }
-              value={userData.gender}
+              value={userData.gender || "Not Selected"}
             >
               <option value="Not Selected">{t("NOT_SELECTED")}</option>
               <option value="Male">{t("MALE")}</option>
               <option value="Female">{t("FEMALE")}</option>
             </select>
           ) : (
-            <p className="text-gray-500">{userData.gender}</p>
+            <p className="text-gray-500">
+              {t(userData.gender.toUpperCase()) || ""}
+            </p>
           )}
 
           <p className="font-medium">{t("BIRTHDAY")}</p>
-
           {isEdit ? (
             <input
               className="max-w-28 bg-gray-50"
@@ -199,13 +211,17 @@ const MyProfile = () => {
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, dob: e.target.value }))
               }
-              value={userData.dob}
+              value={formatDateToYYYYMMDD(userData.dob) || ""}
             />
           ) : (
-            <p className="text-gray-500">{userData.dob}</p>
+            <p className="text-gray-500">
+              {formatDateToYYYYMMDD(userData.dob) || ""}
+            </p>
           )}
         </div>
       </div>
+
+      {/* Action Buttons */}
       <div className="mt-10">
         {isEdit ? (
           <button
@@ -224,7 +240,7 @@ const MyProfile = () => {
         )}
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default MyProfile;
