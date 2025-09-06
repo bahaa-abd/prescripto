@@ -168,7 +168,7 @@ const MyAppointments = () => {
               <p className="text-[#262626] text-base font-semibold">
                 {item.docData.name}
               </p>
-              <p>{item.docData.speciality}</p>
+              <p>{t(item.docData.speciality, "specialityMap")}</p>
               <p className="text-[#464646] font-medium mt-1">
                 {t("ADDRESS_LABEL")}
               </p>
