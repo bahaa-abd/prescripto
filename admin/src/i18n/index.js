@@ -88,6 +88,11 @@ export const resources = {
       APPOINTMENT_FEE: "Appointment fee",
       SAVE: "Save",
       EDIT: "Edit",
+      PLEASE_SELECT_VALID_IMAGE: "Please select valid image",
+      IMAGE_SIZE_TOO_LARGE: "Image size too large",
+      CHANGE_PHOTO: "Change photo",
+      UPDATE_PHOTO: "Update photo",
+      NEW_PHOTO_SELECTED: "New photo selected",
     },
     specialityMap: {
       "General physician": "General physician",
@@ -186,6 +191,11 @@ export const resources = {
       APPOINTMENT_FEE: "رسوم الموعد",
       SAVE: "حفظ",
       EDIT: "تعديل",
+      PLEASE_SELECT_VALID_IMAGE: "الرجاء اختيار صورة صالحة",
+      IMAGE_SIZE_TOO_LARGE: "حجم الصورة كبير جداً",
+      CHANGE_PHOTO: "تغيير الصورة",
+      UPDATE_PHOTO: "تحديث الصورة",
+      NEW_PHOTO_SELECTED: "تم اختيار صورة جديدة",
     },
     specialityMap: {
       "General physician": "الطب العام",
