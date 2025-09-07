@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 import notificationModel from "../models/notificationModel.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // API for doctor Login
 const loginDoctor = async (req, res) => {
@@ -183,14 +184,26 @@ const doctorProfile = async (req, res) => {
 // API to update doctor profile data from  Doctor Panel
 const updateDoctorProfile = async (req, res) => {
   try {
-    const { docId } = req.body; // This comes from authDoctor middleware
+    const { docId } = req; // This comes from authDoctor middleware
     const { fees, address, available } = req.body;
+    const imageFile = req.file;
+    // upload image to cloudinary
 
     if (!docId) {
       return res.json({ success: false, message: "Doctor ID is required" });
     }
 
-    await doctorModel.findByIdAndUpdate(docId, { fees, address, available });
+    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+      resource_type: "image",
+    });
+    const imageUrl = imageUpload.secure_url;
+
+    await doctorModel.findByIdAndUpdate(docId, {
+      fees,
+      address,
+      available,
+      image: imageUrl,
+    });
 
     res.json({ success: true, message: "Profile Updated" });
   } catch (error) {
