@@ -159,7 +159,11 @@ const MyAppointments = () => {
           >
             <div>
               <img
-                className="w-36 bg-[#EAEFFF]"
+                onClick={() => {
+                  navigate(`/appointment/${item.docData._id}`);
+                  scrollTo(0, 0);
+                }}
+                className="w-36 bg-[#EAEFFF] cursor-pointer"
                 src={item.docData.image}
                 alt=""
               />
