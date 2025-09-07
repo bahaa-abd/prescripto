@@ -142,6 +142,13 @@ export const resources = {
       SET_PASSWORD: "تعيين كلمة المرور",
       PLACEHOLDER_PASSWORD: "كلمة المرور",
       EXPERIENCE: "الخبرة",
+      // Reviews
+      PATIENT_REVIEWS: "تقييمات المرضى",
+      NO_REVIEWS_YET: "لا توجد تقييمات بعد",
+      REVIEWS_WILL_APPEAR: "ستظهر التقييمات هنا بمجرد أن يُكمل المرضى مواعيدهم",
+      LOADING_REVIEWS: "جاري تحميل التقييمات...",
+      REVIEWS: "تقييمات",
+      REVIEW: "تقييم",
       FEES: "الرسوم",
       PLACEHOLDER_FEES: "رسوم الطبيب",
       SPECIALITY: "التخصص",
