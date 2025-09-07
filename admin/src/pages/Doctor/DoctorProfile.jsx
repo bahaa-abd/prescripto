@@ -8,7 +8,7 @@ import DoctorReviews from "../../components/DoctorReviews";
 const DoctorProfile = () => {
   const { dToken, profileData, setProfileData, getProfileData } =
     useContext(DoctorContext);
-  const { currency, backendUrl } = useContext(AppContext);
+  const { currency, backendUrl, t } = useContext(AppContext);
   const [isEdit, setIsEdit] = useState(false);
 
   const updateProfile = async () => {
@@ -77,7 +77,7 @@ const DoctorProfile = () => {
             {/* ----- Doc About ----- */}
             <div>
               <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">
-                About :
+                {t("ABOUT")} :
               </p>
               <p className="text-sm text-gray-600 max-w-[700px] mt-1">
                 {isEdit ? (
@@ -100,7 +100,7 @@ const DoctorProfile = () => {
             </div>
 
             <p className="text-gray-600 font-medium mt-4">
-              Appointment fee:{" "}
+              {t("APPOINTMENT_FEE")}:{" "}
               <span className="text-gray-800">
                 {currency}{" "}
                 {isEdit ? (
@@ -121,7 +121,7 @@ const DoctorProfile = () => {
             </p>
 
             <div className="flex gap-2 py-2">
-              <p>Address:</p>
+              <p>{t("ADDRESS")}:</p>
               <p className="text-sm">
                 {isEdit ? (
                   <input
@@ -167,7 +167,7 @@ const DoctorProfile = () => {
                 }
                 checked={profileData.available}
               />
-              <label htmlFor="">Available</label>
+              <label htmlFor="">{t("AVAILABLE")}</label>
             </div>
 
             {isEdit ? (
@@ -175,14 +175,14 @@ const DoctorProfile = () => {
                 onClick={updateProfile}
                 className="px-4 py-1 border border-primary text-sm rounded-full mt-5 hover:bg-primary hover:text-white transition-all"
               >
-                Save
+                {t("SAVE")}
               </button>
             ) : (
               <button
                 onClick={() => setIsEdit((prev) => !prev)}
                 className="px-4 py-1 border border-primary text-sm rounded-full mt-5 hover:bg-primary hover:text-white transition-all"
               >
-                Edit
+                {t("EDIT")}
               </button>
             )}
           </div>

@@ -83,14 +83,19 @@ export const resources = {
       UNPAID: "Unpaid",
       LATEST_BOOKING: "Latest Bookings",
       BOOKING_ON: "Booking on",
-      specialityMap: {
-        "General physician": "General physician",
-        Gynecologist: "Gynecologist",
-        Dermatologist: "Dermatologist",
-        Pediatricians: "Pediatricians",
-        Neurologist: "Neurologist",
-        Gastroenterologist: "Gastroenterologist",
-      },
+      // Doctor Profile page
+      ABOUT: "About",
+      APPOINTMENT_FEE: "Appointment fee",
+      SAVE: "Save",
+      EDIT: "Edit",
+    },
+    specialityMap: {
+      "General physician": "General physician",
+      Gynecologist: "Gynecologist",
+      Dermatologist: "Dermatologist",
+      Pediatricians: "Pediatricians",
+      Neurologist: "Neurologist",
+      Gastroenterologist: "Gastroenterologist",
     },
   },
   ar: {
@@ -176,6 +181,11 @@ export const resources = {
       UNPAID: "غير مدفوع",
       LATEST_BOOKING: "المواعيد القريبة",
       BOOKING_ON: "الحجز بتاريخ",
+      // Doctor Profile page
+      ABOUT: "نبذة",
+      APPOINTMENT_FEE: "رسوم الموعد",
+      SAVE: "حفظ",
+      EDIT: "تعديل",
     },
     specialityMap: {
       "General physician": "الطب العام",
