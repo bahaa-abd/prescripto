@@ -193,17 +193,16 @@ const updateDoctorProfile = async (req, res) => {
       return res.json({ success: false, message: "Doctor ID is required" });
     }
 
-    const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
-      resource_type: "image",
-    });
-    const imageUrl = imageUpload.secure_url;
+    const data = { fees, address: JSON.parse(address), available };
 
-    await doctorModel.findByIdAndUpdate(docId, {
-      fees,
-      address,
-      available,
-      image: imageUrl,
-    });
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+      data.image = imageUpload.secure_url;
+    }
+
+    await doctorModel.findByIdAndUpdate(docId, data);
 
     res.json({ success: true, message: "Profile Updated" });
   } catch (error) {
