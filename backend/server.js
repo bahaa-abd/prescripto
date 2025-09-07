@@ -7,6 +7,8 @@ import userRouter from "./routes/userRoute.js";
 import doctorRouter from "./routes/doctorRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import paymentRouter from "./routes/paymentRoute.js";
+import notificationRouter from "./routes/notificationRoute.js";
+import reviewRouter from "./routes/reviewRoute.js";
 
 // app config
 const app = express();
@@ -23,6 +25,8 @@ app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/doctor", doctorRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/api/notifications", notificationRouter);
+app.use("/api/reviews", reviewRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working");

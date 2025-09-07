@@ -15,6 +15,7 @@ import info_icon from "./info_icon.svg";
 import upload_icon from "./upload_icon.png";
 import stripe_logo from "./stripe_logo.png";
 import razorpay_logo from "./razorpay_logo.png";
+import notification_icon from "./notification_icon.svg";
 
 import Dermatologist from "./Dermatologist.svg";
 import Gastroenterologist from "./Gastroenterologist.svg";
@@ -42,6 +43,7 @@ export const assets = {
   upload_icon,
   stripe_logo,
   razorpay_logo,
+  notification_icon,
 };
 
 export const specialityData = [

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
+import notificationModel from "../models/notificationModel.js";
 
 // API for doctor Login
 const loginDoctor = async (req, res) => {
@@ -30,7 +31,7 @@ const loginDoctor = async (req, res) => {
 // API to get doctor appointments for doctor panel
 const appointmentsDoctor = async (req, res) => {
   try {
-    const { docId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
     const appointments = await appointmentModel.find({ docId });
 
     res.json({ success: true, appointments });
@@ -43,17 +44,42 @@ const appointmentsDoctor = async (req, res) => {
 // API to cancel appointment for doctor panel
 const appointmentCancel = async (req, res) => {
   try {
-    const { docId, appointmentId } = req.body;
+    const { appointmentId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
 
-    const appointmentData = await appointmentModel.findById(appointmentId);
-    if (appointmentData && appointmentData.docId === docId) {
-      await appointmentModel.findByIdAndUpdate(appointmentId, {
-        cancelled: true,
+    if (!appointmentId) {
+      return res.json({
+        success: false,
+        message: "Appointment ID is required",
       });
-      return res.json({ success: true, message: "Appointment Cancelled" });
     }
 
-    res.json({ success: false, message: "Appointment Cancelled" });
+    const appointmentData = await appointmentModel.findById(appointmentId);
+    if (!appointmentData) {
+      return res.json({ success: false, message: "Appointment not found" });
+    }
+
+    if (appointmentData.docId.toString() !== docId) {
+      return res.json({
+        success: false,
+        message: "Unauthorized to cancel this appointment",
+      });
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      cancelled: true,
+    });
+
+    const notificationData = {
+      userId: appointmentData.userId,
+      title: "Appointment Cancelled",
+      message: `Your appointment with Dr. ${appointmentData.docData.name} has been successfully cancelled.`,
+    };
+
+    const newNotification = new notificationModel(notificationData);
+    await newNotification.save();
+
+    res.json({ success: true, message: "Appointment Cancelled" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -63,17 +89,43 @@ const appointmentCancel = async (req, res) => {
 // API to mark appointment completed for doctor panel
 const appointmentComplete = async (req, res) => {
   try {
-    const { docId, appointmentId } = req.body;
+    const { appointmentId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
 
-    const appointmentData = await appointmentModel.findById(appointmentId);
-    if (appointmentData && appointmentData.docId === docId) {
-      await appointmentModel.findByIdAndUpdate(appointmentId, {
-        isCompleted: true,
+    if (!appointmentId) {
+      return res.json({
+        success: false,
+        message: "Appointment ID is required",
       });
-      return res.json({ success: true, message: "Appointment Completed" });
     }
 
-    res.json({ success: false, message: "Appointment Cancelled" });
+    const appointmentData = await appointmentModel.findById(appointmentId);
+    if (!appointmentData) {
+      return res.json({ success: false, message: "Appointment not found" });
+    }
+
+    if (appointmentData.docId.toString() !== docId) {
+      return res.json({
+        success: false,
+        message: "Unauthorized to complete this appointment",
+      });
+    }
+
+    await appointmentModel.findByIdAndUpdate(appointmentId, {
+      isCompleted: true,
+    });
+
+    const notificationData = {
+      userId: appointmentData.userId,
+
+      title: "Appointment Completed",
+      message: `Your appointment with Dr. ${appointmentData.docData.name} has been successfully completed. We hope you had a good experience.`,
+    };
+
+    const newNotification = new notificationModel(notificationData);
+    await newNotification.save();
+
+    res.json({ success: true, message: "Appointment Completed" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -94,13 +146,17 @@ const doctorList = async (req, res) => {
 // API to change doctor availablity for Admin and Doctor Panel
 const changeAvailablity = async (req, res) => {
   try {
-    const { docId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
 
     const docData = await doctorModel.findById(docId);
+    if (!docData) {
+      return res.json({ success: false, message: "Doctor not found" });
+    }
+
     await doctorModel.findByIdAndUpdate(docId, {
       available: !docData.available,
     });
-    res.json({ success: true, message: "Availablity Changed" });
+    res.json({ success: true, message: "Availability Changed" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -110,8 +166,12 @@ const changeAvailablity = async (req, res) => {
 // API to get doctor profile for  Doctor Panel
 const doctorProfile = async (req, res) => {
   try {
-    const { docId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
     const profileData = await doctorModel.findById(docId).select("-password");
+
+    if (!profileData) {
+      return res.json({ success: false, message: "Doctor profile not found" });
+    }
 
     res.json({ success: true, profileData });
   } catch (error) {
@@ -123,7 +183,12 @@ const doctorProfile = async (req, res) => {
 // API to update doctor profile data from  Doctor Panel
 const updateDoctorProfile = async (req, res) => {
   try {
-    const { docId, fees, address, available } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
+    const { fees, address, available } = req.body;
+
+    if (!docId) {
+      return res.json({ success: false, message: "Doctor ID is required" });
+    }
 
     await doctorModel.findByIdAndUpdate(docId, { fees, address, available });
 
@@ -137,7 +202,7 @@ const updateDoctorProfile = async (req, res) => {
 // API to get dashboard data for doctor panel
 const doctorDashboard = async (req, res) => {
   try {
-    const { docId } = req.body;
+    const { docId } = req.body; // This comes from authDoctor middleware
 
     const appointments = await appointmentModel.find({ docId });
 

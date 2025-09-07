@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
 import RelatedDoctors from "../components/RelatedDoctors";
+import DoctorReviews from "../components/DoctorReviews";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -244,6 +245,9 @@ const Appointment = () => {
           {t("BOOK_AN_APPOINTMENT")}
         </button>
       </div>
+
+      {/* Doctor Reviews */}
+      <DoctorReviews doctorId={docId} />
 
       {/* Listing Releated Doctors */}
       <RelatedDoctors speciality={docInfo.speciality} docId={docId} />

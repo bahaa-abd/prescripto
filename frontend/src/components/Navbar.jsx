@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import NotificationDropdown from "./NotificationDropdown";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -59,13 +60,16 @@ const Navbar = () => {
         </NavLink>
       </ul>
 
-      <div className="flex items-center gap-4 ">
-        <button
-          onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-          className="px-3 py-1 border rounded-full text-xs"
-        >
-          {language === "en" ? "EN" : "AR"}
-        </button>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+            className="px-3 py-1 border rounded-full text-xs hover:bg-gray-50 transition-colors"
+          >
+            {language === "en" ? "EN" : "AR"}
+          </button>
+          {token && userData && <NotificationDropdown />}
+        </div>
         {token && userData ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
             <img className="w-8 rounded-full" src={userData.image} alt="" />

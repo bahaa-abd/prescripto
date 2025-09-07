@@ -3,6 +3,7 @@ import { DoctorContext } from "../../context/DoctorContext";
 import { AppContext } from "../../context/AppContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import DoctorReviews from "../../components/DoctorReviews";
 
 const DoctorProfile = () => {
   const { dToken, profileData, setProfileData, getProfileData } =
@@ -186,6 +187,9 @@ const DoctorProfile = () => {
             )}
           </div>
         </div>
+
+        {/* Doctor Reviews Section */}
+        {profileData && <DoctorReviews doctorId={profileData._id} />}
       </div>
     )
   );

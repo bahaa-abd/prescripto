@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
 const paymentSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+    index: true,
+  },
   amount: { type: Number, required: true },
   type: { type: String, enum: ["deposit", "withdraw"], required: true },
   description: { type: String },

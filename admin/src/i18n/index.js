@@ -48,6 +48,14 @@ export const resources = {
       SET_PASSWORD: "Set Password",
       PLACEHOLDER_PASSWORD: "Password",
       EXPERIENCE: "Experience",
+      // Reviews
+      PATIENT_REVIEWS: "Patient Reviews",
+      NO_REVIEWS_YET: "No reviews yet",
+      REVIEWS_WILL_APPEAR:
+        "Reviews will appear here once patients complete their appointments",
+      LOADING_REVIEWS: "Loading reviews...",
+      REVIEWS: "reviews",
+      REVIEW: "review",
       FEES: "Fees",
       PLACEHOLDER_FEES: "Doctor fees",
       SPECIALITY: "Speciality",
@@ -73,6 +81,8 @@ export const resources = {
       PAYMENT: "Payment",
       PAID: "Paid",
       UNPAID: "Unpaid",
+      LATEST_BOOKING: "Latest Bookings",
+      BOOKING_ON: "Booking on",
       specialityMap: {
         "General physician": "General physician",
         Gynecologist: "Gynecologist",
@@ -157,6 +167,8 @@ export const resources = {
       PAYMENT: "المدفوعات",
       PAID: "مدفوع",
       UNPAID: "غير مدفوع",
+      LATEST_BOOKING: "المواعيد القريبة",
+      BOOKING_ON: "الحجز بتاريخ",
     },
     specialityMap: {
       "General physician": "الطب العام",

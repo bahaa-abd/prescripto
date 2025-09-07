@@ -4,6 +4,7 @@ import validator from "validator";
 import userModel from "../models/userModel.js";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
+import notificationModel from "../models/notificationModel.js";
 import { v2 as cloudinary } from "cloudinary";
 import stripe from "stripe";
 import razorpay from "razorpay";
@@ -215,6 +216,15 @@ const bookAppointment = async (req, res) => {
     // save new slots data in docData
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
 
+    // Create notification for successful appointment booking
+    const notificationData = {
+      userId,
+      title: "Appointment Booked Successfully",
+      message: `Your appointment with Dr. ${docData.name} has been booked for ${slotDate} at ${slotTime}.`,
+    };
+    const newNotification = new notificationModel(notificationData);
+    await newNotification.save();
+
     res.json({ success: true, message: "Appointment Booked" });
   } catch (error) {
     console.log(error);
@@ -266,12 +276,21 @@ const cancelAppointment = async (req, res) => {
     const doctorData = await doctorModel.findById(docId);
 
     let slots_booked = doctorData.slots_booked;
-
+    console.log(slots_booked);
     slots_booked[slotDate] = slots_booked[slotDate].filter(
       (e) => e !== slotTime
     );
 
     await doctorModel.findByIdAndUpdate(docId, { slots_booked });
+
+    // Create notification for appointment cancellation
+    const notificationData = {
+      userId,
+      title: "Appointment Cancelled",
+      message: `Your appointment with Dr. ${appointmentData.docData.name} has been cancelled. The amount has been refunded to your account.`,
+    };
+    const newNotification = new notificationModel(notificationData);
+    await newNotification.save();
 
     res.json({ success: true, message: "Appointment Cancelled" });
   } catch (error) {
